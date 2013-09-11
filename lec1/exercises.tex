@@ -1,0 +1,139 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{python}
+\usepackage{verbatim}
+\pagestyle{fancyplain}
+
+
+\lhead{CECS 529}
+
+\rhead{A. Shawn Bandy 
+(003635396)}
+
+
+\begin{document}
+\title{Lecture 1 Exercises}
+\author{A. Shawn Bandy}
+\date{August 31\textsuperscript{st}, 2013}
+\maketitle
+
+\begin{enumerate}
+\item Consider the following document collection:
+\begin{itemize}
+\item \textbf{Doc 1:} breakthrough drug for schizophrenia
+\item \textbf{Doc 2:} new schizophrenia drug
+\item \textbf{Doc 3:} new approach to treatment of schizophrenia
+\item \textbf{Doc 4:} new hope for schizophrenia patients
+\end{itemize}
+\begin{python}[ex1lib.py]
+import shelve 
+import ex1lib
+
+documents = {0: 'breakthrough drug for schizophrenia',1: 'new schizophrenia drug',2: 'new approach to treatment of schizophrenia',3: 'new hope for schizophrenia patients'}
+
+ex1lib.print_documents(documents)
+
+s = shelve.open('ex1');
+try:
+	s['documents'] = documents
+finally:
+	s.close()
+
+
+
+\end{python}
+Provide both the term-document matrix and inverted index for this document collection.
+What documents will be returned for the Boolean query \texttt{schizophrenia} AND
+\texttt{drug}? For the query \texttt{for} AND NOT(\texttt{drug} or \texttt{approach})?
+
+\begin{python}
+import shelve
+import ex1lib
+
+s = shelve.open('ex1');
+try:
+        documents = s['documents']
+finally:
+        s.close
+
+m = ex1lib.calc_term_document_matrix(documents)
+(header,firstline,rows,footer) = ex1lib.format_term_document_matrix(m,documents)
+print r"Hello"
+print header
+print firstline
+for word in rows:
+	print word + "&" + rows[word]
+print footer
+\end{python}
+
+
+
+\item Suppose that $x$ and $y$ are the respective postings-list sizes for the terms
+\texttt{Romney} and \texttt{Obama}. Assuming $n$ documents in the collection.
+What are the worst-case running times for returning the list of documents that satisfy 
+\texttt{Romney} AND NOT \texttt{Obama}? \texttt{Romney} OR NOT \texttt{Obama}? 
+Explain.
+
+\item Convert
+\begin{verbatim}
+(a or b) and not(c or d)
+\end{verbatim} 
+to disjunctive normal form. If a, b, c, and d are terms with respective postings-list sizes 
+$x$, $y$, $z$, and $w$, compare the worst-case running times of the original query
+with the DNF query. Assume $n$ documents in the entire collection.
+
+\item Give an example where a,b, and c are terms with respective postings-list sizes
+$x < y < z$, and for which 
+\begin{verbatim}
+(a and b) and c
+\end{verbatim} 
+will have a longer running time than
+\begin{verbatim}
+(c and b) and a
+\end{verbatim}
+
+\item Use the Integral Theorem to obtain the order of growth of the sequence
+\[1+1/\sqrt{2}+1/\sqrt{3}+\cdots.\]
+
+$\sum_{i=1}^m f(i) = \theta (integral f(x) from 1 to m dx)$
+
+\item Repeat Example 5, but now use $c=0.5$, followed by $c=2$. Compare the memory usage
+for both cases with the $c=1$ case computed in Example 5.
+
+%t_i% has approximately floor n/i^s posting, for s = 2 and s = 0.5
+
+\item Consider a collection of $n$ documents and $m$ terms, where, for each document $d$ and term $t$, $t$ appears
+at most once in $d$. Moreover, if $t_{1},\ldots,t_{m}$ is a listing of terms in decreasing order of frequency, assume that
+$t_{i}$ occurs in $1/i$ of the documents. a) Give a big-$\Theta$ estimate of the number of tokens contained in this collection. b) What percentage of the most frequently occurring terms account for 80\% of these tokens? Note: Pareto's
+rule would imply an answer of 20\%. Is this correct?
+
+T =  of 1's in term\_doc matrix
+
+T = n + n/2 + n/3 ... n/m
+
+m is arbitrary
+
+m = sqrt(T) = sqrt(n log m) what does n have to be to make this an actual equality?
+
+\item For the document collection of the previous problem, how would $n$ have to depend on $m$ in order for Heap's Law
+to be obeyed. In other words, what should we replace $n$ by in terms of $m$ so that the square root of the number of
+tokens is on the order of $m$? 
+
+
+
+\item Try the following Google queries: burglar, burglar burglar, and 
+burglar OR burglar. Look at the estimated number of results and top hits.
+Are they identical (as they should be)?
+
+\item Try the Google queries knight, conquer, and knight OR conquer.
+Are the number of hits for the third query bounded by the sum of the number 
+of hits for the first two queries (as they should be)?
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,387 @@
+\documentclass [12pt]{article}
+
+\usepackage{pythontex}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=0.3in,bmargin=1in,lmargin=.4in,rmargin=.5in}
+\usepackage{graphicx}
+
+% mathematical commands
+\newcommand{\choos}[2]{{\left(\begin{array}{c}#1\\#2\end{array}\right)}}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.25in}
+
+\begin{document}
+\begin{center}{\bf \large Boolean Information Retrieval}\end{center}
+
+\normalsize
+
+\textbf{Definition of Information Retrieval.} Information retrieval is the process of locating
+one or more resources that satisfy an 
+\textbf{information need} and exist within one or more \textbf{collections} of resources.
+
+\textbf{Examples of Information Retrieval.} 
+\begin{itemize}
+\item finding a webpage that discusses how to clean battery terminals with baking powder
+\item searching a patent database for recent patents related to information retrieval
+technology
+\item recalling all previous sent emails to a friend or colleague
+\item finding a movie to attend based on one's past ratings of other attended movies
+\item identifying a cathedral in New York City based on a photograph taken during a vacation in New York
+\item locating any songs that another song could have perhaps plagiarized
+\end{itemize}
+
+An information retrieval task always begins with a user's \textbf{information need}. In other words,
+what is it that we want to know? We could even go a step further and ask ``what is it that we want to feel?''.
+The following is a list of some generic types of information need.
+
+\begin{itemize}
+\item \textbf{Information about people.} Who lost the presidential election of 1968? Who should I contact about obtaining a 
+loan application? Who is favored to win the Best-Actress Academy Award? I want to read a bio of Wayne Gretzky. 
+I want to find a companion to take to next week's concert. Who was the first to postulate the existence of electrical 
+forces? Who is the person in this photograph?
+
+\item \textbf{Information about places.} Where can I find the nearest Thai restraunt? What city was the capital of the 
+Ottoman Empire? In which county is Alta Dena located? I want to see a map of Santa Clara County. Where does David
+Letterman reside? Where is the CECS 551 final exam being held? In what city is the tower in this picture located?
+
+\item \textbf{Information about things.} How many different ant species have been identified?
+What does it mean to be free? What are the different car models produced by Mazda? What composers have a similar
+compositional style as the composer who wrote this piece? Is this [photo] an example of poison oak?
+
+\item \textbf{Information about the time and duration of events.} When did Leif Ericson reach North America? When will the luncheon be
+held? When will I able to speak with your supervisor? For how long should I bake cod?
+
+\item \textbf{Information about processes.} How do I get to Dodger Stadium from my house? How can I unclog my sink?
+How are rainbows formed? How can I make my omlets more fluffy? How to bake salmon? How can I change my state (from
+sadness, loneliness, anger, etc.)?
+
+\item \textbf{Information about causality.} Why is my car not starting? Why does the sun's magnetic polarity change
+every 11 years?
+
+\item \textbf{Information about comparisons.} Which has fewer calories: bagels or English muffins? What bank is offering
+the best one-year cd interest rate? Which of these photos best match the one taken by the security camera?
+
+\item \textbf{Information about quantity.} How many feet are in a single meter? How much would one dollar be worth
+back in 1965?
+\end{itemize}
+
+\vspace{0.5in}
+An \textbf{information retrieval language} is a language (either formal or informal) that is
+used to specify what resources are to be retrieved. Generally, the user with the  
+information need does not know the structure of each resource, other than possibly some of the 
+text that it might contain. This represents one way in which information retrieval 
+differs from, say, traditional database querying, in which the structure of the database is
+known to the programmer. 
+For this reason, text informational retrieval languages tend to be 
+\textbf{term based}, meaning that the atomic properties are  
+stated with words (i.e. terms) that the resource may or may not possess. Here we assume that each 
+resource contains one or more terms as part of its structure. For example, the resource might 
+be an mp3 music file with terms that provide the song title, artist, date of publication, etc..
+
+In addition to text, some systems allow information to be retrieved via image, sound, or video files.
+This is referred to as \textbf{multimedia information retrieval}. This will be the topic of a later lecture.
+In this course, however, primary emphasis is placed on text-based information retrieval. This is due to the fact
+that the vast majority of recorded information and knowledge is text-based; and even the multimedia-based recordings
+usually are accompanied by text.
+
+For the remainder of the course a \textbf{document} is defined as that which 
+represents an individual resource of the collection 
+(also referred to as \textbf{corpus}) that is to be searched over. Moreover, we assume that each document
+contains one or more terms. Thus, there is a many-to-many relationship between terms and documents. And this relationship can be represented by what is called a \textbf{term-document
+matrix}, where each row (respectively column) is represented by a possible term (respectively
+document). Where entry $(t,d)$ has a 1, iff document $d$ contains term $t$; and is 0 otherwise. Henceforth we assume both terms and documents can be sorted (e.g., assume that
+terms have a lexicographical ordering, and each
+document has a unique id associated with it), and that the matrix rows and columns follow this
+sorted order. 
+
+\newpage
+\textbf{Example 1.} Consider the following corpus of documents, 
+where each document represents a phrase.
+Assume the set of terms is the union of all English words in each of the phrases. Construct
+the term-document matrix for this collection. Show how bit-wise operations
+can be performed on matrix rows to find the documents that have the terms 
+hot \texttt{or} cold, and those documents that have the terms hot \texttt{and} soup.
+
+\begin{itemize}
+\item \textbf{Document 1:} pea soup hot
+\item \textbf{Document 2:} pea soup cold
+\item \textbf{Document 3:} pea soup in the pot
+\item \textbf{Document 4:} nine days old
+\item \textbf{Document 5:} some like it hot
+\item \textbf{Document 6:} some like it cold
+\end{itemize}
+
+\begin{pycode}
+print(rÕ\begin{center}Õ)
+print(rÕ\textit{A message from Python!}Õ)
+print(rÕ\end{center}Õ)
+\end{pycode}
+
+\vspace{4.0in}
+\textbf{Example 2.} A conservative estimate for the Library of Congress holdings is 
+20 million books. A conservative estimate of the union of all English terms in those books
+is 500,000. Provide a conservative estimate for the size (in bytes) of the associated 
+Library of Congress term-document matrix. 
+
+
+
+\newpage
+\noindent
+\textbf{Boolean query languages.} A Boolean query language is an information-retrieval
+language which, in its simplest form, uses terms as atoms, along with the logical connectives
+\texttt{and},\texttt{or}, and \texttt{not}. For example, the Boolean formula
+\[\mbox{soup and hot}\]
+specifies all documents that contain both terms soup and hot. In Boolean logic, a term 
+(or its negation) plays 
+the role of what is called a \textbf{literal}; meaning an atomic variable/statement that evaluates 
+to true or false. For example, the term ``soup'' represents the Boolean literal 
+that translates to ``the document contains the term \texttt{soup}''.
+Boolean query languages tend to 
+be the languages of choice for ad hoc retrieval tasks. Note the difference, however, between
+a query formula and the information need that led to the query. For example, if my information 
+need is to know the week for final exams for this semester, then the associated query might 
+be\\ ``csulb fall 2013 final exam schedule''.
+
+Henceforth we define a \textbf{Boolean information-retrieval system} as one which supports a Boolean query language,
+and, for each Boolean query $q$, returns exactly those documents $d$ which satisfy the query; i.e. $q(d)$ evaluates to
+true. The set of returned documents will henceforth be denoted by $\mbox{sat}(q)$.
+
+\vspace{0.5in}
+\textbf{Example 3.} Determine $\mbox{sat}(q)$ for the Example-1 collection, where $q$ is given by 
+\[\mbox{(soup or cold) and not pot}\]
+
+\vspace{0.5in}
+Two measures of effectiveness of a query:
+
+
+\begin{itemize}
+\item \textbf{Precision.} Denotes the fraction of returned documents that are relevant to the 
+information need. 
+
+\item \textbf{Recall.} Denotes the fraction of documents in the corpus that are relevant to the information need that were returned.
+\end{itemize}
+
+Generally speaking, precision (recall) tends to increase (decrease)
+ as the number of terms used in the (conjunctive) query increases.
+
+
+
+\newpage
+\noindent
+\begin{center} \textbf{The Inverted Index}\end{center}
+
+Given a corpus, an \textbf{inverted indexing} of the corpus is represented by the set of terms
+of the corpus, where each term has a list of references to the documents that contain the term.
+The collection of terms is called a \textbf{dictionary}, while the references are referred to 
+as \textbf{postings}.
+
+\vspace{0.5in}
+\textbf{Example 4.} Create an inverted index for the Example-1 corpus.
+
+
+\newpage
+Given a document collection, let $t_{i}$ denote the $i$~th most frequently occurring term,
+measured in terms of the number of documents that it appears in. Then 
+\textbf{Zipf's empirical law} states that the fraction $f_{i}$ of documents that $t_{i}$ 
+occurs in is given by $f_{i}=c/i^{s}$, for some constants $c,s > 0$. This is an example of a 
+\textbf{power law}. Intuitively, given a set of possibilities as to what can be observed, a small percentage
+of those possibilities will be observed a large percentage of the time. This is popularly known as the
+\textbf{Pareto's 80-20 Rule}. For example, ``only twenty percent of the dictionary is needed to account for eighty
+percent of all words that appear in text''.
+
+It is interesting to note that it has been empirically verified that the distribution of webpage links also follows
+a power law. In other words, one can define a directed graph whose vertex set is the set of webpages, and for which
+there is an edge from one webpage $p_{1}$ to another webpage $p_{2}$ iff somewhere in $p_{1}$ there is a link to
+$p_{2}$. Then the probability density $f(p)$ of webpage $p$ is obtained by dividing the in-degree of vertex $p$ by the
+total number of edges (links) in the system. Then if we enumerate the pages in descending order of probability, we
+see that the probabilities descend in accordance with a power law. Larry Page, a Google founder, was among the first to
+use knowledge of this distribution to better rank the webpages that are returned from a query. In a play on words,
+he called this \textbf{Page Ranking}. Document ranking will be a topic of a later lecture.
+
+\textbf{Example 5.} Assume that the Library of Congress holdings from Example 2 follows
+Zipf's empirical law with $c=s=1$. Neglecting the memory needed to store each term,
+how much memory will be required by an inverted
+index for this collection? Compare this with the memory needed to store the term-document 
+matrix. Assume that each document id requires 32 bits (4 bytes) of memory.
+
+\vspace{4.0in}
+Another empirical law regarding the recurring frequencies of terms within a collection is Heap's Law which states
+that the number $m$ of distinct terms counted when processing the first $T$ tokens of text is given by 
+$m=c\sqrt{T}$, where $c$ is a constant that usually ranges between 30 and 100. In other words, as the amount of
+processed text increases, the rate at which new terms appear approaches zero.
+
+
+
+
+\vspace{2.5in}
+\textbf{Example 6.} Give an approximation for $c$ in Heap's Law for the collection discussed in Example 2, assume that,
+on average, a Library-of-Congress holding has 100,000 tokens of text.
+
+\newpage
+\vspace{3.5in}
+\textbf{Efficient Processing of Boolean Queries over an Inverted Index}
+
+\begin{enumerate}
+\item For a conjunctive query, start with the terms that have the fewest postings. 
+A linear scan or binary search can then be performed.
+\item Purely conjunctive queries can be performend ``in place'' within a designated array
+location.
+\item Disjunctive queries can be handled in linear time (in the size of the number of postings)
+via a merge procedure that is similar to what one uses in the Mergesort algorithm.
+\item A negation query can be performed in a manner similar to a conjunctive query. However, now
+the intersection of the postings is the part that is discarded.
+\end{enumerate}
+
+\vspace{0.5in}
+\noindent
+\textbf{Example 7.} Given the postings lists $l_{1} = 1,4,7,8,10,13,20,24,25,26,29$ and\\
+$l_{2} = 1,5,9,11,12,13,18,24,25,28,29,40,52$,\\
+determine resulting postings for 
+$l_{1}\mbox{ and } l_{2}$, $l_{1}\mbox{ or } l_{2}$, and 
+$l_{1}\mbox{ and } (\mbox{ not }l_{2})$.
+
+\newpage
+\textbf{General Boolean queries.} For an arbitrary Boolean query that uses the
+operators \texttt{not},
+\texttt{and}, and \texttt{or}, the query can be converted to disjunctive normal
+form before applying the above efficiency rules. A Boolean formula is said to be 
+in \textbf{disjunctive normal
+form} iff it has the form 
+\[q_{1}\mbox{ or } q_{2} \mbox{ or }\cdots \mbox{ or } q_{n},\]
+where each $q_{i}$ is a conjunction of literals (i.e. terms, either negated, or occurring
+positively).
+
+\textbf{Example 8.} Convert the following Boolean query to an equivalent one that 
+is in DNF form:
+\begin{verbatim}
+not(p and not q) and (r or s)
+\end{verbatim} 
+
+\newpage
+\textbf{Skip Lists.} Skip lists are similar to linked lists, but have an extra pointer, called the \textbf{skip pointer}
+that points to a link that occurs further ahead in the list. Skip pointers represent one way of speeding up the 
+processing of a conjunctive query. When processing a binary conjunctive query, at any given time each of the two postings
+lists has one document id that is under consideration, and the list with the smaller id is the one which is scanned upward
+from that id until reaching an id that is greater than or equal to the larger id. Having a skip pointer in the scanned 
+list allows one to look ahead to see if this pointer references an id that is less than or equal to the larger id. If 
+so, then one can move directly to that id, instead of having to scan through all the intermediate ids.
+
+\textbf{Example 9.} Given the postings lists $l_{1} = 1,4,24,50,105,360,392, 396,400,488,953$ and\\
+$l_{2} = 1,5,9,11,12,13,18,24,45,488,117, 488, 862$,\\
+determine the postings that result in the conjunction of $l_{1}$ and $l_{2}$, and assume that each id 
+has a skip pointer to an id that is exactly five positions
+ahead of it (assuming the id is five or more places from the end of the list). 
+
+\newpage
+\textbf{Google Query Operators and Conventions.} In the next 
+lecture we will discuss how to achieve some of the functionality described below.
+
+\begin{itemize}
+\item \textbf{Phrase search (``'')}. Example: ``Todd Ebert'' returns pages that have this exact phrase.
+\item \textbf{Search within a specific website (site:).} Example: ``Todd Ebert'' site:.edu returns pages that
+have the exact phrase and are located within a .edu domain.
+\item \textbf{Terms to exclude (-).} Example Todd Ebert -CSULB returns pages that have both Todd and Ebert, and 
+not CSULB. The minus sign can also occur before the ``site'' keyword in order to exclude a website.
+\item \textbf{Wildcard (*).} Example: Super Bowl * Champion returns pages that have the given phrase, with * filled in
+by one or more terms.
+\item \textbf{Search exactly as is (+).} Similar to minus, but now it prevents the search from including synonyms
+of the given word. For example, +California history will prevent California from being replaced with an equivalent term,
+such as ca.
+\item \textbf{The OR operator.} Example Super Bowl 2007 OR 2008 Champion returns pages that will include either 2007 or
+2008.
+\end{itemize}
+
+\newpage
+\noindent
+\textbf{References.}
+
+\begin{enumerate}
+\item A.L. Barabasi, "Linked: How Everything is Connected to Everything Else and What it Means for Business,
+Science, and Everyday Life'',
+Plume Publishing, 2003
+
+\item Google Guide,
+\begin{verbatim} www.googleguide.com\end{verbatim}
+
+\item C. Manning, P. Raghavan, H. Schutze, "Introduction to Information Retrieval'',
+Cambridge University Press, 2008
+
+\item Wikipedia: Zipf's Law
+
+\end{enumerate}
+
+\vspace{0.5in}
+\textbf{Exercises.}
+
+\begin{enumerate}
+\item Consider the following document collection:
+
+\begin{python}[ex1lib.py]
+
+\end{python}
+
+Provide both the term-document matrix and inverted index for this document collection.
+What documents will be returned for the Boolean query \texttt{schizophrenia} AND
+\texttt{drug}? For the query \texttt{for} AND NOT(\texttt{drug} or \texttt{approach})?
+
+
+
+\item Suppose that $x$ and $y$ are the respective postings-list sizes for the terms
+\texttt{Romney} and \texttt{Obama}. Assuming $n$ documents in the collection.
+What are the worst-case running times for returning the list of documents that satisfy 
+\texttt{Romney} AND NOT \texttt{Obama}? \texttt{Romney} OR NOT \texttt{Obama}? 
+Explain.
+
+\item Convert
+\begin{verbatim}
+(a or b) and not(c or d)
+\end{verbatim} 
+to disjunctive normal form. If a, b, c, and d are terms with respective postings-list sizes 
+$x$, $y$, $z$, and $w$, compare the worst-case running times of the original query
+with the DNF query. Assume $n$ documents in the entire collection.
+
+\item Give an example where a,b, and c are terms with respective postings-list sizes
+$x < y < z$, and for which 
+\begin{verbatim}
+(a and b) and c
+\end{verbatim} 
+will have a longer running time than
+\begin{verbatim}
+(c and b) and a
+\end{verbatim}
+
+\item Use the Integral Theorem to obtain the order of growth of the sequence
+\[1+1/\sqrt{2}+1/\sqrt{3}+\cdots.\]
+
+\item Repeat Example 5, but now use $c=0.5$, followed by $c=2$. Compare the memory usage
+for both cases with the $c=1$ case computed in Example 5.
+
+\item Consider a collection of $n$ documents and $m$ terms, where, for each document $d$ and term $t$, $t$ appears
+at most once in $d$. Moreover, if $t_{1},\ldots,t_{m}$ is a listing of terms in decreasing order of frequency, assume that
+$t_{i}$ occurs in $1/i$ of the documents. a) Give a big-$\Theta$ estimate of the number of tokens contained in this collection. b) What percentage of the most frequently occurring terms account for 80\% of these tokens? Note: Pareto's
+rule would imply an answer of 20\%. Is this correct?
+
+\item For the document collection of the previous problem, how would $n$ have to depend on $m$ in order for Heap's Law
+to be obeyed. In other words, what should we replace $n$ by in terms of $m$ so that the square root of the number of
+tokens is on the order of $m$? 
+
+\item Try the following Google queries: burglar, burglar burglar, and 
+burglar OR burglar. Look at the estimated number of results and top hits.
+Are they identical (as they should be)?
+
+\item Try the Google queries knight, conquer, and knight OR conquer.
+Are the number of hits for the third query bounded by the sum of the number 
+of hits for the first two queries (as they should be)?
+
+\end{enumerate}
+
+
+
+\end{document}
+
+
+
+
+	
